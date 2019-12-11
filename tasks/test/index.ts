@@ -24,11 +24,12 @@ async function main(): Promise<void> {
     let testName = task.getInput('testName', false);
     let testPlainName = task.getInput('testPlainName', false);
     let updateGoldens = task.getBoolInput('updateGoldens', false);
+	let concurrency = task.getInput('concurrency', false);
     let coverage = task.getBoolInput('coverage', false);
     let verbose = task.getBoolInput('verbose', false);
 
     // 5. Running tests
-    var results = await runTests(flutterPath, updateGoldens, testName, testPlainName, coverage, verbose);
+    var results = await runTests(flutterPath, (concurrency ? Number(concurrency) : null), updateGoldens, testName, testPlainName, coverage, verbose);
 
     // 6. Publishing tests
     await publishTests(results);
@@ -57,10 +58,11 @@ async function publishTests(results: any) {
     publisher.publish([xmlPath], false, "", "", "", true, "VSTS - Flutter");
 }
 
-async function runTests(flutter: string, updateGoldens?: boolean, name?: string, plainName?: string, coverage?: boolean, verbose?: boolean): Promise<any> {
+async function runTests(flutter: string, concurrency?: number, updateGoldens?: boolean, name?: string, plainName?: string, coverage?: boolean, verbose?: boolean): Promise<any> {
     var commandParts = [
         flutter,
-        "test --pub --concurrency=1",
+        "test --pub",
+		concurrency ? "--concurrency=" + concurrency : "",
         updateGoldens ? "--update-goldens" : "",
         name ? " --name=" + name : "",
         plainName ? "--plan-name=" + plainName : "",

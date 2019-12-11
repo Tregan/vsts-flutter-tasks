@@ -9,7 +9,7 @@
     "version": {
         "Major": 0,
         "Minor": 2,
-        "Patch": 49
+        "Patch": 55
     },
     "instanceNameFormat": "Flutter Test (Extended)",
     "inputs": [
@@ -45,7 +45,15 @@
             "required": false,
             "helpMarkDown": "Whether matchesGoldenFile() calls within your test methods should update the golden files rather than test for an existing match."
         },
-		{
+{
+            "name": "concurrency",
+            "type": "string",
+            "label": "Concurrency",
+            "defaultValue": "1",
+            "required": false,
+            "helpMarkDown": "The number of concurrent test processes to run. (defaults to '1'). Setting this to value > 1 might make the test report inaccurate (successful tests missing, failures will probably still show up fine), but the task will take less time to complete."
+        },		
+        {
             "name": "coverage",
             "type": "boolean",
             "label": "Coverage",
@@ -53,7 +61,7 @@
             "required": false,
             "helpMarkDown": "Whether to collect code coverage information."
         },
-		{
+        {
             "name": "verbose",
             "type": "boolean",
             "label": "Verbose",

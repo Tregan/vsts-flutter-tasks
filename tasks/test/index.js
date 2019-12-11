@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -31,10 +32,11 @@ function main() {
         let testName = task.getInput('testName', false);
         let testPlainName = task.getInput('testPlainName', false);
         let updateGoldens = task.getBoolInput('updateGoldens', false);
+        let concurrency = task.getInput('concurrency', false);
         let coverage = task.getBoolInput('coverage', false);
         let verbose = task.getBoolInput('verbose', false);
         // 5. Running tests
-        var results = yield runTests(flutterPath, updateGoldens, testName, testPlainName, coverage, verbose);
+        var results = yield runTests(flutterPath, (concurrency ? Number(concurrency) : null), updateGoldens, testName, testPlainName, coverage, verbose);
         // 6. Publishing tests
         yield publishTests(results);
         if (results.isSuccess) {
@@ -59,11 +61,12 @@ function publishTests(results) {
         publisher.publish([xmlPath], false, "", "", "", true, "VSTS - Flutter");
     });
 }
-function runTests(flutter, updateGoldens, name, plainName, coverage, verbose) {
+function runTests(flutter, concurrency, updateGoldens, name, plainName, coverage, verbose) {
     return __awaiter(this, void 0, void 0, function* () {
         var commandParts = [
             flutter,
-            "test --pub --concurrency=1",
+            "test --pub",
+            concurrency ? "--concurrency=" + concurrency : "",
             updateGoldens ? "--update-goldens" : "",
             name ? " --name=" + name : "",
             plainName ? "--plan-name=" + plainName : "",
