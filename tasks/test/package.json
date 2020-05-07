@@ -18,7 +18,7 @@
   "homepage": "https://github.com/aloisdeniel/vsts-flutter-tasks#readme",
   "dependencies": {
     "@types/xml2js": "*",
-    "azure-pipelines-task-lib": "^2.8.0",
+    "azure-pipelines-task-lib": "^2.9.3",
     "xml2js": "*"
   },
   "directories": {

@@ -9,7 +9,7 @@
     "version": {
         "Major": 0,
         "Minor": 2,
-        "Patch": 55
+        "Patch": 56
     },
     "instanceNameFormat": "Flutter Install (Extended)",
     "inputs": [
@@ -44,7 +44,7 @@
             "label": "Custom version (semver)",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "The version of the SDK to use (in a <M>.<m>.<p> semver format, from (https://flutter.io/sdk-archive/).",
+            "helpMarkDown": "The version of the SDK to use (from (https://flutter.io/sdk-archive/).",
             "visibleRule": "version = custom"
         }
     ],

@@ -55,7 +55,7 @@ function findArchitecture() {
 function downloadAndCacheSdk(versionSpec, channel, arch) {
     return __awaiter(this, void 0, void 0, function* () {
         // 1. Download SDK archive
-        let downloadUrl = `https://storage.googleapis.com/flutter_infra/releases/${channel}/${arch}/flutter_${arch}_v${versionSpec}.zip`;
+        let downloadUrl = `https://storage.googleapis.com/flutter_infra/releases/${channel}/${arch}/flutter_${arch}_${versionSpec}.zip`;
         task.debug(`Starting download archive from '${downloadUrl}'`);
         var bundleZip = yield tool.downloadTool(downloadUrl);
         task.debug(`Succeeded to download '${bundleZip}' archive from '${downloadUrl}'`);
@@ -77,7 +77,7 @@ function findLatestSdkVersion(channel, arch) {
         var currentHash = json.current_release[channel];
         task.debug(`Last version hash '${currentHash}'`);
         var current = json.releases.find((item) => item.hash === currentHash);
-        return current.version.substring(1); // removing leading 'v'
+        return current.version;
     });
 }
 main().catch(error => {
