@@ -51,7 +51,15 @@
             "label": "Concurrency",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": "The number of concurrent test processes to run. (defaults to '6')"
+            "helpMarkDown": "The number of concurrent test processes to run. (defaults to number of processors - 2)"
+        },
+        {
+            "name": "coverage",
+            "type": "boolean",
+            "label": "Coverage",
+            "defaultValue": false,
+            "required": false,
+            "helpMarkDown": "Whether to collect coverage information."
         }
     ],
     "execution": {
