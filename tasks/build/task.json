@@ -1,21 +1,21 @@
 {
-    "id": "10a2efb1-b922-4849-81de-bccd2537ccc1",
+    "id": "294a86dc-b1fc-4c3b-8fb5-f60cb58012c3",
     "name": "FlutterBuild",
-    "friendlyName": "Flutter Build",
+    "friendlyName": "Flutter Build (BasRops)",
     "description": "Build a Flutter application project.",
     "helpMarkDown": "Don't forget to insert a 'Flutter Install' task before. [More Information](https://github.com/aloisdeniel/vsts-flutter-tasks)",
     "category": "Build",
     "visibility": [
         "Build"
     ],
-    "author": "Aloïs Deniel",
+    "author": "Aloïs Deniel, extended by Bas Rops",
     "version": {
         "Major": 0,
         "Minor": 2,
         "Patch": 33
     },
     "groups": [],
-    "instanceNameFormat": "Flutter Build $(target)",
+    "instanceNameFormat": "Flutter Build $(target) (BasRops)",
     "inputs": [
         {
             "name": "target",

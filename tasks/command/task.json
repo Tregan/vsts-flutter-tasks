@@ -1,21 +1,21 @@
 {
-    "id": "d885c1e4-9aa1-4a16-b2ec-07db402304d4",
+    "id": "09425798-acf2-4346-87af-7a776d04fd4a",
     "name": "FlutterCommand",
-    "friendlyName": "Flutter Command",
+    "friendlyName": "Flutter Command (BasRops)",
     "description": "Launch a custom Flutter command with custom arguments.",
     "helpMarkDown": "Don't forget to insert a 'Flutter Install' task before. [More Information](https://github.com/aloisdeniel/vsts-flutter-tasks)",
     "category": "Build",
     "visibility": [
         "Build"
     ],
-    "author": "Aloïs Deniel",
+    "author": "Aloïs Deniel, extended by Bas Rops",
     "version": {
         "Major": 0,
         "Minor": 2,
         "Patch": 32
     },
     "groups": [],
-    "instanceNameFormat": "Flutter Command",
+    "instanceNameFormat": "Flutter Command (BasRops)",
     "inputs": [
         {
             "name": "arguments",

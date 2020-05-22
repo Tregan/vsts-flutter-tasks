@@ -1,11 +1,11 @@
 {
     "manifestVersion": 1,
-    "id": "flutter",
+    "id": "flutter-basrops",
     "version": "0.2.37",
-    "name": "Flutter",
+    "name": "Flutter BasRops",
     "description": "Flutter extension for Azure DevOps",
-    "publisher": "aloisdeniel",
-    "public": true,
+    "publisher": "ic3dbasrops",
+    "public": false,
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
@@ -28,12 +28,12 @@
     },
     "links": {
         "support": {
-            "uri": "https://github.com/aloisdeniel/vsts-flutter-tasks/issues"
+            "uri": "https://github.com/Tregan/vsts-flutter-tasks/issues"
         }
     },
     "repository": {
         "type": "git",
-        "uri": "https://github.com/aloisdeniel/vsts-flutter-tasks"
+        "uri": "https://github.com/Tregan/vsts-flutter-tasks"
     },
     "tags": [
         "flutter",
@@ -61,7 +61,7 @@
     ],
     "contributions": [
         {
-            "id": "flutter-install",
+            "id": "flutter-basrops-install",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"
@@ -71,7 +71,7 @@
             }
         },
         {
-            "id": "flutter-build",
+            "id": "flutter-basrops-build",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"
@@ -81,7 +81,7 @@
             }
         },
         {
-            "id": "flutter-test",
+            "id": "flutter-basrops-test",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"
@@ -91,7 +91,7 @@
             }
         },
         {
-            "id": "flutter-command",
+            "id": "flutter-basrops-command",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"
