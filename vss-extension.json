@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "flutter-basrops",
-    "version": "0.2.37",
+    "version": "0.2.44",
     "name": "Flutter BasRops",
     "description": "Flutter extension for Azure DevOps",
     "publisher": "ic3dbasrops",
