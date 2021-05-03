@@ -31,6 +31,7 @@ function main() {
         task.debug(`Project's directory : ${task.cwd()}`);
         // 4. Get common input
         let debugMode = task.getBoolInput('debugMode', false);
+        let unsoundNullSafety = task.getBoolInput('unsoundNullSafety', false);
         let buildName = task.getInput('buildName', false);
         let buildNumber = task.getInput('buildNumber', false);
         let buildFlavour = task.getInput('buildFlavour', false);
@@ -39,22 +40,22 @@ function main() {
         if (target === "all" || target === "ios") {
             let targetPlatform = task.getInput('iosTargetPlatform', false);
             let codesign = task.getBoolInput('iosCodesign', false);
-            yield buildIpa(flutterPath, targetPlatform == "simulator", codesign, buildName, buildNumber, debugMode, buildFlavour, entryPoint);
+            yield buildIpa(flutterPath, targetPlatform == "simulator", codesign, buildName, buildNumber, debugMode, unsoundNullSafety, buildFlavour, entryPoint);
         }
         if (target === "all" || target === "apk") {
             let targetPlatform = task.getInput('apkTargetPlatform', false);
-            yield buildApk(flutterPath, targetPlatform, buildName, buildNumber, debugMode, buildFlavour, entryPoint);
+            yield buildApk(flutterPath, targetPlatform, buildName, buildNumber, debugMode, unsoundNullSafety, buildFlavour, entryPoint);
         }
         if (target === "all" || target === "aab") {
-            yield buildAab(flutterPath, buildName, buildNumber, debugMode, buildFlavour, entryPoint);
+            yield buildAab(flutterPath, buildName, buildNumber, debugMode, unsoundNullSafety, buildFlavour, entryPoint);
         }
         if (target === "web") {
-            yield buildWeb(flutterPath);
+            yield buildWeb(flutterPath, buildName, buildNumber, debugMode, unsoundNullSafety, buildFlavour, entryPoint);
         }
         task.setResult(task.TaskResult.Succeeded, "Application built");
     });
 }
-function buildApk(flutter, targetPlatform, buildName, buildNumber, debugMode, buildFlavour, entryPoint) {
+function buildApk(flutter, targetPlatform, buildName, buildNumber, debugMode, unsoundNullSafety, buildFlavour, entryPoint) {
     return __awaiter(this, void 0, void 0, function* () {
         var args = [
             "build",
@@ -62,6 +63,9 @@ function buildApk(flutter, targetPlatform, buildName, buildNumber, debugMode, bu
         ];
         if (debugMode) {
             args.push("--debug");
+        }
+        if (unsoundNullSafety) {
+            args.push("--no-sound-null-safety");
         }
         if (targetPlatform) {
             args.push("--target-platform=" + targetPlatform);
@@ -84,7 +88,7 @@ function buildApk(flutter, targetPlatform, buildName, buildNumber, debugMode, bu
         }
     });
 }
-function buildAab(flutter, buildName, buildNumber, debugMode, buildFlavour, entryPoint) {
+function buildAab(flutter, buildName, buildNumber, debugMode, unsoundNullSafety, buildFlavour, entryPoint) {
     return __awaiter(this, void 0, void 0, function* () {
         var args = [
             "build",
@@ -92,6 +96,9 @@ function buildAab(flutter, buildName, buildNumber, debugMode, buildFlavour, entr
         ];
         if (debugMode) {
             args.push("--debug");
+        }
+        if (unsoundNullSafety) {
+            args.push("--no-sound-null-safety");
         }
         if (buildName) {
             args.push("--build-name=" + buildName);
@@ -111,7 +118,7 @@ function buildAab(flutter, buildName, buildNumber, debugMode, buildFlavour, entr
         }
     });
 }
-function buildIpa(flutter, simulator, codesign, buildName, buildNumber, debugMode, buildFlavour, entryPoint) {
+function buildIpa(flutter, simulator, codesign, buildName, buildNumber, debugMode, unsoundNullSafety, buildFlavour, entryPoint) {
     return __awaiter(this, void 0, void 0, function* () {
         var args = [
             "build",
@@ -119,6 +126,9 @@ function buildIpa(flutter, simulator, codesign, buildName, buildNumber, debugMod
         ];
         if (debugMode) {
             args.push("--debug");
+        }
+        if (unsoundNullSafety) {
+            args.push("--no-sound-null-safety");
         }
         if (simulator) {
             args.push("--simulator");
@@ -152,12 +162,30 @@ function buildIpa(flutter, simulator, codesign, buildName, buildNumber, debugMod
         }
     });
 }
-function buildWeb(flutter) {
+function buildWeb(flutter, buildName, buildNumber, debugMode, unsoundNullSafety, buildFlavour, entryPoint) {
     return __awaiter(this, void 0, void 0, function* () {
         var args = [
             "build",
             "web"
         ];
+        if (debugMode) {
+            args.push("--debug");
+        }
+        if (unsoundNullSafety) {
+            args.push("--no-sound-null-safety");
+        }
+        if (buildName) {
+            args.push("--build-name=" + buildName);
+        }
+        if (buildNumber) {
+            args.push("--build-number=" + buildNumber);
+        }
+        if (buildFlavour) {
+            args.push("--flavor=" + buildFlavour);
+        }
+        if (entryPoint) {
+            args.push("--target=" + entryPoint);
+        }
         var result = yield task.exec(flutter, args);
         if (result !== 0) {
             throw new Error("web build failed");

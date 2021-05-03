@@ -24,6 +24,7 @@ async function main(): Promise<void> {
 
     // 4. Get common input
     let debugMode = task.getBoolInput('debugMode', false);
+    let unsoundNullSafety = task.getBoolInput('unsoundNullSafety', false);
     let buildName = task.getInput('buildName', false);
     let buildNumber = task.getInput('buildNumber', false);
     let buildFlavour = task.getInput('buildFlavour', false);
@@ -33,26 +34,26 @@ async function main(): Promise<void> {
     if (target === "all" || target === "ios") {
         let targetPlatform = task.getInput('iosTargetPlatform', false);
         let codesign = task.getBoolInput('iosCodesign', false);
-        await buildIpa(flutterPath, targetPlatform == "simulator", codesign, buildName, buildNumber, debugMode, buildFlavour, entryPoint);
+        await buildIpa(flutterPath, targetPlatform == "simulator", codesign, buildName, buildNumber, debugMode, unsoundNullSafety, buildFlavour, entryPoint);
     }
 
     if (target === "all" || target === "apk") {
         let targetPlatform = task.getInput('apkTargetPlatform', false);
-        await buildApk(flutterPath, targetPlatform, buildName, buildNumber, debugMode, buildFlavour, entryPoint);
+        await buildApk(flutterPath, targetPlatform, buildName, buildNumber, debugMode, unsoundNullSafety, buildFlavour, entryPoint);
     }
 
     if (target === "all" || target === "aab") {
-        await buildAab(flutterPath, buildName, buildNumber, debugMode, buildFlavour, entryPoint);
+        await buildAab(flutterPath, buildName, buildNumber, debugMode, unsoundNullSafety, buildFlavour, entryPoint);
     }
 
     if (target === "web") {
-        await buildWeb(flutterPath);
+        await buildWeb(flutterPath, buildName, buildNumber, debugMode, unsoundNullSafety, buildFlavour, entryPoint);
     }
 
     task.setResult(task.TaskResult.Succeeded, "Application built");
 }
 
-async function buildApk(flutter: string, targetPlatform?: string, buildName?: string, buildNumber?: string, debugMode?: boolean, buildFlavour?: string, entryPoint?: string) {
+async function buildApk(flutter: string, targetPlatform?: string, buildName?: string, buildNumber?: string, debugMode?: boolean, unsoundNullSafety?: boolean, buildFlavour?: string, entryPoint?: string) {
 
     var args = [
         "build",
@@ -61,6 +62,10 @@ async function buildApk(flutter: string, targetPlatform?: string, buildName?: st
 
     if (debugMode) {
         args.push("--debug");
+    }
+
+    if (unsoundNullSafety) {
+        args.push("--no-sound-null-safety");
     }
 
     if (targetPlatform) {
@@ -90,7 +95,7 @@ async function buildApk(flutter: string, targetPlatform?: string, buildName?: st
     }
 }
 
-async function buildAab(flutter: string, buildName?: string, buildNumber?: string, debugMode?: boolean, buildFlavour?: string, entryPoint?: string) {
+async function buildAab(flutter: string, buildName?: string, buildNumber?: string, debugMode?: boolean, unsoundNullSafety?: boolean, buildFlavour?: string, entryPoint?: string) {
 
     var args = [
         "build",
@@ -101,6 +106,10 @@ async function buildAab(flutter: string, buildName?: string, buildNumber?: strin
         args.push("--debug");
     }
 
+    if (unsoundNullSafety) {
+        args.push("--no-sound-null-safety");
+    }
+	
     if (buildName) {
         args.push("--build-name=" + buildName);
     }
@@ -124,7 +133,7 @@ async function buildAab(flutter: string, buildName?: string, buildNumber?: strin
     }
 }
 
-async function buildIpa(flutter: string, simulator?: boolean, codesign?: boolean, buildName?: string, buildNumber?: string, debugMode?: boolean, buildFlavour?: string, entryPoint?: string) {
+async function buildIpa(flutter: string, simulator?: boolean, codesign?: boolean, buildName?: string, buildNumber?: string, debugMode?: boolean, unsoundNullSafety?: boolean, buildFlavour?: string, entryPoint?: string) {
 
     var args = [
         "build",
@@ -133,6 +142,10 @@ async function buildIpa(flutter: string, simulator?: boolean, codesign?: boolean
 
     if (debugMode) {
         args.push("--debug");
+    }
+
+    if (unsoundNullSafety) {
+        args.push("--no-sound-null-safety");
     }
 
     if (simulator) {
@@ -173,12 +186,36 @@ async function buildIpa(flutter: string, simulator?: boolean, codesign?: boolean
     }
 }
 
-async function buildWeb(flutter: string) {
+async function buildWeb(flutter: string, buildName?: string, buildNumber?: string, debugMode?: boolean, unsoundNullSafety?: boolean, buildFlavour?: string, entryPoint?: string) {
 
     var args = [
         "build",
         "web"
     ];
+
+    if (debugMode) {
+        args.push("--debug");
+    }
+
+    if (unsoundNullSafety) {
+        args.push("--no-sound-null-safety");
+    }
+	
+    if (buildName) {
+        args.push("--build-name=" + buildName);
+    }
+
+    if (buildNumber) {
+        args.push("--build-number=" + buildNumber);
+    }
+
+    if (buildFlavour) {
+        args.push("--flavor=" + buildFlavour);
+    }
+
+    if (entryPoint) {
+        args.push("--target=" + entryPoint);
+    }
 
     var result = await task.exec(flutter, args);
 

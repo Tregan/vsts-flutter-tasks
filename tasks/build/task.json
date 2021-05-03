@@ -12,7 +12,7 @@
     "version": {
         "Major": 0,
         "Minor": 2,
-        "Patch": 43
+        "Patch": 47
     },
     "groups": [],
     "instanceNameFormat": "Flutter Build $(target) (BasRops)",
@@ -54,6 +54,14 @@
             "label": "Debug",
             "defaultValue": false,
             "helpMarkDown": "Force build type to be Debug instead of Release.",
+            "required": false
+        },
+		{
+            "name": "unsoundNullSafety",
+            "type": "boolean",
+            "label": "Unsound null safety",
+            "defaultValue": false,
+            "helpMarkDown": "Force build to be executed with unsound null safety.",
             "required": false
         },
         {
