@@ -9,7 +9,7 @@
     "version": {
         "Major": 0,
         "Minor": 2,
-        "Patch": 44
+        "Patch": 45
     },
     "instanceNameFormat": "Flutter Test (BasRops)",
     "inputs": [
@@ -60,6 +60,14 @@
             "defaultValue": false,
             "required": false,
             "helpMarkDown": "Whether to collect coverage information."
+        },
+        {
+            "name": "verbose",
+            "type": "boolean",
+            "label": "Verbose",
+            "defaultValue": false,
+            "required": false,
+            "helpMarkDown": "Noisy logging, including all shell commands executed."
         }
     ],
     "execution": {

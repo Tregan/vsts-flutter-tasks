@@ -32,8 +32,10 @@ function main() {
         let testPlainName = task.getInput('testPlainName', false);
         let updateGoldens = task.getBoolInput('updateGoldens', false);
         let concurrency = task.getInput('concurrency', false);
+        let coverage = task.getBoolInput('coverage', false);
+        let verbose = task.getBoolInput('verbose', false);
         // 5. Running tests
-        var results = yield runTests(flutterPath, (concurrency ? Number(concurrency) : null), updateGoldens, testName, testPlainName);
+        var results = yield runTests(flutterPath, (concurrency ? Number(concurrency) : null), updateGoldens, testName, testPlainName, coverage, verbose);
         // 6. Publishing tests
         yield publishTests(results);
         if (results.isSuccess) {
@@ -58,7 +60,7 @@ function publishTests(results) {
         publisher.publish(xmlPath, 'false', "", "", "", 'true', "Flutter");
     });
 }
-function runTests(flutter, concurrency, updateGoldens, name, plainName) {
+function runTests(flutter, concurrency, updateGoldens, name, plainName, coverage, verbose) {
     return __awaiter(this, void 0, void 0, function* () {
         let testRunner = task.tool(flutter);
         testRunner.arg(['test', '--pub']);
@@ -73,6 +75,12 @@ function runTests(flutter, concurrency, updateGoldens, name, plainName) {
         }
         if (concurrency) {
             testRunner.arg("--concurrency=" + concurrency);
+        }
+        if (coverage) {
+            testRunner.arg("--coverage");
+        }
+        if (verbose) {
+            testRunner.arg("--verbose");
         }
         var currentSuite = null;
         var results = {
